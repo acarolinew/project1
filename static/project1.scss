@@ -1,0 +1,45 @@
+#loginDivModal {
+    text-align: center;
+    box-shadow: 0px 10px 35px 5px black;
+}
+
+#loginDivForm {
+    background-color: #525252;
+    color: white;
+}
+
+#loginImageBook {
+    width: 100%;
+}
+
+body {
+    background-color: #73CBD9;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+input[type="text"], input[type="password"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
+  border-radius: 0;
+  color: #F8F9FA;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+  box-shadow: none;
+  background: transparent;
+  border-bottom: 1px solid #F8F9FA;
+  color: #F8F9FA;
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder {
+  color: #F8F9FA;
+}
+
+@media screen and (max-width: 991px){
+
+    #loginImageBook {
+        width: 60%;
+    }
+
+}

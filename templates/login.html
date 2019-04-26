@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <!-- <div class="container mx-auto my-auto" style="width: fit-content; height: 100vh;"> -->
+    <div class="container">
+
+        <div class="row vh-100">
+
+            <!-- <div class="col-lg-6 offset-lg-3 my-auto" id="loginDivModal"> -->
+            <div class="col-lg-8 offset-lg-2 my-auto" id="loginDivModal">
+
+                <div class="row">
+
+                    <div class="col-lg-6 my-auto">
+                        <img src="static/books3.jpg" alt="" id="loginImageBook">
+                    </div>
+                    <div class="col-lg-6" id="loginDivForm">
+
+                        <div class="row" style="height: 100%;">
+
+                            <div class="col my-auto">
+                                <form class="" action="index.html" method="post">
+                                    <div class="pt-5 pb-2">
+                                        <label class="sr-only" for="loginUser">Usuario</label>
+                                        <input class="form-control" type="text" name="user" value="" placeholder="Usuario" id="loginUser">
+                                    </div>
+                                    <div class="pt-3 pb-2">
+                                        <label class="sr-only" for="loginPassword">Contraseña</label>
+                                        <input class="form-control" type="password" name="password" value="" placeholder="Contraseña" id="loginPassword">
+                                    </div>
+                                    <div class="py-5">
+                                        <button class="btn btn-outline-light" type="submit" name="button">Ingresar</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
