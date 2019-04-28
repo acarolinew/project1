@@ -1,0 +1,23 @@
+CREATE TABLE usuario (
+    id SERIAL PRIMARY KEY,
+    user_name VARCHAR UNIQUE NOT NULL,
+    password VARCHAR NOT NULL
+);
+
+CREATE TABLE autor (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR UNIQUE NOT NULL
+);
+
+CREATE TABLE libro (
+    id SERIAL PRIMARY KEY,
+    isbn VARCHAR UNIQUE NOT NULL,
+    title VARCHAR NOT NULL,
+    year INTEGER NOT NULL
+);
+
+CREATE TABLE libro_autor (
+    id SERIAL PRIMARY KEY,
+    libro_id INTEGER REFERENCES libro,
+    autor_id INTEGER REFERENCES autor
+);
