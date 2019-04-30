@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-text ml-auto mr-3 py-0" style="font-size:1.3em">¡Hola {{ session["user_name"] }}!</span>
+        <a class="navbar-brand" href="{{ url_for('index') }}">Salir</a>
+    </nav>
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-lg-3 bg">
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="row pt-5">
+
+                    <div class="col-lg-6 offset-lg-3" style="text-align:center;">
+                        <img src="/static/book.png" class="img-fluid" alt="" style="width: 50%;">
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-12" style="text-align:center;">
+                        <h1>"{{ libro.title }}" <em style="font-size: 0.5em">ISBN: {{ libro.isbn }}</em></h1>
+                        <p class="lead">Libro publicado en el año {{ libro.year }} cuyo autor es {{ libro.name }}.</p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-3" style="text-align:center;">
+                                <img src="/static/review.png" class="img-fluid" alt="" style="width: 50%">
+                                <h1>Reviews</h1>
+                            </div>
+                        </div>
+
+                        {% if reviews|length == 0 %}
+                            <div class="alert alert-info fade show mx-auto" role="alert" style="text-align:center">
+                                  <p class="lead">No hay reviews de {{ libro.title }}</p>
+                            </div>
+                        {% else %}
+                            <table class="table table-sm table-hover table-light table-bordered" id="tablaLibros" style="text-align:center">
+                                <!-- <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Detalle</th>
+                                        <th scope="col">Título</th>
+                                    </tr>
+                                </thead> -->
+                                <tbody>
+                                    {% for review in reviews %}
+                                        <tr>
+                                            <th style="vertical-align: middle">{{ review.user_name }}</th>
+                                            <td style="vertical-align: middle; width: 50%">"{{ review.detail }}"</td>
+                                            <!-- <td>{{ review.stars }}</td> -->
+                                            <td style="vertical-align: middle">
+                                                {% for number in range (review.stars) %}
+                                                    <img src="/static/star.png" class="img-fluid" alt="" style="width: 10%">
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+
+                    </div>
+                    <div class="col-lg-6" style="text-align:center">
+                        <h4>¡Ingresa una review!</h4>
+
+                        {% if show_alert_usuario_review == 1 %}
+                            <div class="alert alert-light fade show mt-3" role="alert" style="text-align:center">
+                                  <p class="lead">Ya has realizado una review para {{ libro.title }}</p>
+                            </div>
+                        {% else %}
+
+                            <form class="" action="{{ url_for('book', book_id=libro.id)}}" method="post">
+                                <textarea class="form-control my-3" name="detail" rows="8" required></textarea>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="range" name="stars" class="custom-range w-50 mr-2" id="reviewRangeStars" min="1" max="5" value="1" style="vertical-align: middle;">
+                                        <div style="display:inline; position: relative; text-align: center; color: white;">
+                                            <img src="/static/star.png" class="img-fluid" alt="" style="width: 10%">
+                                            <label id="labelRangeValue"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <button class="btn btn-dark mb-2" type="submit" name="button">¡Enviar!</button>
+
+                            </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-3 bg-r">
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    {% if show_alert_usuario_review == 0 %}
+        var slider = document.getElementById("reviewRangeStars");
+        var output = document.getElementById("labelRangeValue");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+            output.innerHTML = this.value;
+        }
+    {% endif %}
+
+{% endblock %}

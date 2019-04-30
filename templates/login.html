@@ -7,9 +7,9 @@
         <div class="row vh-100">
 
             <!-- <div class="col-lg-6 offset-lg-3 my-auto" id="loginDivModal"> -->
-            <div class="col-lg-8 offset-lg-2 my-auto" id="loginDivModal">
+            <div class="col-lg-8 offset-lg-2 my-auto" >
 
-                <div class="row">
+                <div class="row mb-5" id="loginDivModal">
 
                     <div class="col-lg-6 my-auto">
                         <img src="static/books3.jpg" alt="" id="loginImageBook">
@@ -18,15 +18,25 @@
 
                         <div class="row" style="height: 100%;">
 
-                            <div class="col my-auto">
-                                <form class="" action="index.html" method="post">
+                            <div class="col-lg-8 offset-lg-2 my-auto">
+                                <form class="" action="{{ url_for('login') }}" method="post">
                                     <div class="pt-5 pb-2">
                                         <label class="sr-only" for="loginUser">Usuario</label>
-                                        <input class="form-control" type="text" name="user" value="" placeholder="Usuario" id="loginUser">
+
+                                        {% if user is defined %}
+                                            <input class="form-control inputBottomOutline" type="text" name="user" value="{{ user.user_name }}" placeholder="Usuario" id="loginUser" required>
+                                        {% else %}
+                                            <input class="form-control inputBottomOutline" type="text" name="user" value="" placeholder="Usuario" id="loginUser" required>
+                                        {% endif %}
+
                                     </div>
                                     <div class="pt-3 pb-2">
                                         <label class="sr-only" for="loginPassword">Contraseña</label>
-                                        <input class="form-control" type="password" name="password" value="" placeholder="Contraseña" id="loginPassword">
+                                        {% if user is defined and show_alert_wrong_pass is not defined %}
+                                            <input class="form-control inputBottomOutline" type="password" name="password" value="{{ user.password }}" placeholder="Contraseña" id="loginPassword" required>
+                                        {% else %}
+                                            <input class="form-control inputBottomOutline" type="password" name="password" value="" placeholder="Contraseña" id="loginPassword" required>
+                                        {% endif %}
                                     </div>
                                     <div class="py-5">
                                         <button class="btn btn-outline-light" type="submit" name="button">Ingresar</button>
@@ -41,6 +51,43 @@
 
                 </div>
 
+                {% if show_alert_registration is defined %}
+
+                <div class="row">
+
+                    <div class="alert alert-light alert-dismissible fade show mx-auto" role="alert" style="text-align:right" id="alertaRegistro">
+                          <h4 class="alert-heading">¡Usuario no encontrado!</h4>
+                          <p class="mb-0">El usuario <strong>{{ user.user_name }}</strong> no está registrado. ¿Deseas registrarte?</p>
+                          <p><em>Se registrará con la contraseña ingresada anteriormente</em></p>
+
+                          <form class="" action="{{ url_for('registro') }}" method="post">
+                                <input type="text" name="user" value="{{ user.user_name }}" hidden>
+                                <input type="password" name="password" value="{{ user.password }}" hidden>
+                              <button class="btn btn-outline-dark" type="submit" name="button">¡De acuerdo!</button>
+                          </form>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+                {% if show_alert_wrong_pass is defined %}
+
+                <div class="row">
+
+                    <div class="alert alert-danger alert-dismissible fade show mx-auto" role="alert" style="text-align:right">
+                          <p>Usuario o contraseña incorrecta. Intente nuevamente.</p>
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                    </div>
+
+                </div>
+
+                {% endif %}
 
             </div>
 
@@ -49,3 +96,11 @@
     </div>
 
 {% endblock %}
+
+<!-- {% block js %}
+
+    if ({{ 1 if show_alert_registration else 0 }}) {
+        $('#alertaRegistro').removeAttr('hidden');
+    }
+
+{% endblock %} -->

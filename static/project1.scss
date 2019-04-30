@@ -12,28 +12,69 @@
     width: 100%;
 }
 
+#tablaLibros {
+    th {
+        border-color: #adb5bd;
+    }
+
+    td {
+        border-color: #adb5bd;
+    }
+}
+
+#labelRangeValue {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
 body {
     background-color: #73CBD9;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-input[type="text"], input[type="password"] {
+.inputBottomOutline {
   background: transparent;
   border: none;
   border-bottom: 1px solid #000000;
   border-radius: 0;
   color: #F8F9FA;
+  text-align: center;
 }
 
-input[type="text"]:focus, input[type="password"]:focus {
+.inputBottomOutline:focus {
   box-shadow: none;
   background: transparent;
   border-bottom: 1px solid #F8F9FA;
   color: #F8F9FA;
+  text-align: center;
 }
 
-input[type="text"]::placeholder, input[type="password"]::placeholder {
-  color: #F8F9FA;
+.inputBottomOutline::placeholder {
+  color: #ffffff9c;
+  text-align: center;
+}
+
+.bg {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("estanteria.jpg");
+
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    height: 100vh;
+}
+
+.bg-r {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("estanteria.jpg");
+
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    height: 100vh;
 }
 
 @media screen and (max-width: 991px){

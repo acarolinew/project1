@@ -13,11 +13,14 @@ CREATE TABLE libro (
     id SERIAL PRIMARY KEY,
     isbn VARCHAR UNIQUE NOT NULL,
     title VARCHAR NOT NULL,
+    autor_id INTEGER REFERENCES autor,
     year INTEGER NOT NULL
 );
 
-CREATE TABLE libro_autor (
+CREATE TABLE review (
     id SERIAL PRIMARY KEY,
+    detail VARCHAR NOT NULL,
+    stars INTEGER NOT NULL,
     libro_id INTEGER REFERENCES libro,
-    autor_id INTEGER REFERENCES autor
+    usuario_id INTEGER REFERENCES usuario
 );
