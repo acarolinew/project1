@@ -1,4 +1,5 @@
 import os
+import requests
 
 from flask import Flask, session, render_template, request
 from flask_session import Session
@@ -123,4 +124,12 @@ def book(book_id):
         libro = db.execute("SELECT l.id, l.isbn, l.title, l.year, a.name FROM libro l, autor a WHERE l.autor_id = a.id and l.id = :id", {"id": book_id}).fetchone()
         reviews = db.execute("SELECT r.*, u.user_name FROM review r, usuario u WHERE r.libro_id = :id and r.usuario_id = u.id", {"id": book_id}).fetchall()
 
-        return render_template('book.html', libro=libro, reviews=reviews, show_alert_usuario_review=show_alert_usuario_review)
+        goodreadsApiKey = "tpdr69k3CAh0DA53FqAWw"
+
+        data = requests.get("https://www.goodreads.com/book/review_counts.json?isbns={}&key={}".format(libro["isbn"], goodreadsApiKey)).json()
+        average_rating = data["books"][0]["average_rating"]
+        work_ratings_count = data["books"][0]["work_ratings_count"]
+
+        goodreads_data = {"average_rating": average_rating, "work_ratings_count": work_ratings_count}
+
+        return render_template('book.html', libro=libro, reviews=reviews, show_alert_usuario_review=show_alert_usuario_review, goodreads_data=goodreads_data)

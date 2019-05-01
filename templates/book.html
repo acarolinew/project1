@@ -28,6 +28,11 @@
                     <div class="col-lg-12" style="text-align:center;">
                         <h1>"{{ libro.title }}" <em style="font-size: 0.5em">ISBN: {{ libro.isbn }}</em></h1>
                         <p class="lead">Libro publicado en el año {{ libro.year }} cuyo autor es {{ libro.name }}.</p>
+                        <p>
+                            <em>El Rating promedio es de {{ goodreads_data.average_rating }} con {{ goodreads_data.work_ratings_count}} entradas.
+                                [Desde <a href="https://www.goodreads.com/">Goodreads</a>]
+                            </em>
+                        </p>
                     </div>
 
                 </div>
