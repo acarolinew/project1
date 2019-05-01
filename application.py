@@ -26,7 +26,7 @@ db = scoped_session(sessionmaker(bind=engine))
 @app.route("/")
 def index():
 
-    if session["user_id"] is None and session["user_name"] is None:
+    if session.get("user_id") is None and session.get("user_name") is None:
         return render_template('login.html')
     else:
         return render_template('home.html')
