@@ -2,22 +2,50 @@
 {% block body %}
 
     <nav class="navbar navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Inicio</a>
         <span class="navbar-text ml-auto mr-3 py-0" style="font-size:1.3em">¡Hola {{ session["user_name"] }}!</span>
         <a class="navbar-brand" href="{{ url_for('logout') }}">Salir</a>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid bg-secondary">
 
         <div class="row">
 
-            <div class="col-lg-3 bg">
+            <div class="col-lg-2 bg">
             </div>
 
-            <div class="col-lg-6 mt-5">
+            <div class="col-lg-8 mt-5 my-auto">
 
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3 mt-5 mb-3" style="text-align:center">
-                        <h1>Buscar Libros</h1>
+                        <h2 class="text-light"><u>A lo mejor te pueden gustar</u></h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for libro in libros_random %}
+                        <div class="col-lg-4 mb-2">
+                            <div class="card text-white bg-warning text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a class="card-link text-dark" href="{{ url_for('book', book_id=libro.id)}}">{{ libro.title }}</a></h5>
+                                    <p class="card-text" style="margin-bottom:0;">{{ libro.name }}</p>
+                                    <p style="margin-bottom:0;">{{ libro.average_rating }}<img src="/static/star.png" class="img-fluid ml-1" alt="" style="width: 15px; vertical-align: unset;"></p>
+                                    <p style="margin-bottom:0;">{{ libro.work_ratings_count }} reviews</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+                    <div class="col text-right">
+                        [Ratings y reviews desde <a class="text-light" href="https://www.goodreads.com/">Goodreads</a>]
+                    </div>
+                </div>
+
+                <div class="row" id="divBuscarLibros">
+                    <div class="col-lg-6 offset-lg-3 mt-5 mb-3" style="text-align:center">
+                        <h1 class="text-light">Buscar Libros</h1>
                     </div>
                 </div>
 
@@ -36,58 +64,65 @@
                     </div>
                 </form>
 
-                {% if libros is defined %}
-
-                    <hr class="mt-5" style="border-width:2px; border-color:#23272B;">
-
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-3 my-3" style="text-align:center">
-                            <h2>Lista de Libros (Cantidad : {{ libros|length }})</h2>
-                        </div>
-                        <div class="col-lg-10 offset-lg-1" style="overflow: auto; height: 60vh;">
-
-                            {% if libros|length == 0 %}
-                                <div class="alert alert-info fade show mx-auto" role="alert" style="text-align:center">
-                                      <h4>No se encontraron libros con ISBN, título o autor que contenga <strong>"{{ buscar }}"</strong> </h4>
-                                </div>
-                            {% else %}
-                                <table class="table table-sm table-hover table-light table-bordered" id="tablaLibros">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <!-- <th scope="col">#</th> -->
-                                            <th scope="col">ISBN</th>
-                                            <th scope="col">Título</th>
-                                            <th scope="col">Autor(es)</th>
-                                            <!-- <th scope="col">Año</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for libro in libros %}
-
-                                            <tr>
-                                                <!-- <th>{{ libro.id }}</th> -->
-                                                <th>{{ libro.isbn }}</th>
-                                                <th><a href="{{ url_for('book', book_id=libro.id)}}">{{ libro.title }}</a></th>
-                                                <th>{{ libro.name }}</th>
-                                                <!-- <th>{{ libro.year }}</th> -->
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            {% endif %}
-
-                        </div>
-                    </div>
-
-                {% endif %}
-
             </div>
 
-            <div class="col-lg-3 bg-r">
+            <div class="col-lg-2 bg-r">
             </div>
 
         </div>
 
     </div>
 
+    <div class="container-fluid">
+
+        {% if libros is defined %}
+
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 my-3" style="text-align:center">
+                    <h2>Se han encontrado {{ libros|length }} libros</h2>
+                </div>
+                <div class="col-lg-10 offset-lg-1 mb-3" style="overflow: auto; height: 85vh;">
+
+                    {% if libros|length == 0 %}
+                        <div class="alert alert-info fade show mx-auto" role="alert" style="text-align:center">
+                              <h4>No se encontraron libros con ISBN, título o autor que contenga <strong>"{{ buscar }}"</strong> </h4>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            {% for libro in libros %}
+                                <div class="col-lg-3 mb-2">
+                                    <div class="card border-secondary text-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><a class="card-link" href="{{ url_for('book', book_id=libro.id)}}">{{ libro.title }}</a></h5>
+                                            <p class="card-text">{{ libro.name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    {% if scroll %}
+
+        var element = document.getElementById('{{ scroll }}');
+        var headerOffset = 45;
+        var elementPosition = element.getBoundingClientRect().top;
+        var offsetPosition = elementPosition - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+
+    {% endif %}
 {% endblock %}
