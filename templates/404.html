@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row" style="height: 100vh;">
+            <div class="col text-center my-auto">
+                <h1>Página no encontrada</h1>
+                <p>{{ mensaje }}</p>
+                <p><a class="text-light" href="{{ url_for('index') }}">Ir al home</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

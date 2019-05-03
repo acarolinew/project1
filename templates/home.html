@@ -11,7 +11,7 @@
 
         <div class="row">
 
-            <div class="col-lg-2 bg">
+            <div class="col-lg-2 bg d-none d-lg-block">
             </div>
 
             <div class="col-lg-8 mt-5 my-auto">
@@ -50,7 +50,7 @@
                 </div>
 
                 <form class="" action="{{ url_for('home') }}" method="post">
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-lg-5 offset-lg-3">
                             {% if buscar is defined %}
                                 <input class="form-control" type="text" name="buscar" value="{{ buscar }}" id="homeBuscar" placeholder="Ingrese autor, ISBN o titulo del libro">
@@ -66,7 +66,7 @@
 
             </div>
 
-            <div class="col-lg-2 bg-r">
+            <div class="col-lg-2 bg-r d-none d-lg-block">
             </div>
 
         </div>

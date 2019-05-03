@@ -165,6 +165,9 @@ def book(book_id):
 @app.route("/api/<isbn>")
 def api(isbn):
     libro_row = db.execute("SELECT l.id, l.isbn, l.title, l.year, a.name FROM libro l, autor a WHERE l.autor_id = a.id and l.isbn = :isbn", {"isbn": isbn}).fetchone()
+    if libro_row is None:
+        mensaje = "ISBN no encontrado"
+        return render_template("404.html", mensaje=mensaje)
     goodreadsApiKey = "tpdr69k3CAh0DA53FqAWw"
     data = requests.get("https://www.goodreads.com/book/review_counts.json?isbns={}&key={}".format(libro_row["isbn"], goodreadsApiKey)).json()
 
@@ -172,3 +175,7 @@ def api(isbn):
                     "review_count": data["books"][0]["reviews_count"], "average_score": data["books"][0]["average_rating"]}
 
     return jsonify(show_data)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
